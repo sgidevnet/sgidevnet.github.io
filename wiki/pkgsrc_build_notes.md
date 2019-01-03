@@ -6,7 +6,7 @@
 
 **ANOTHER DISCLAIMER:**
 
-I know much of this is hacky. If you have time and/or resources to do
+We know much of this is hacky. If you have time and/or resources to do
 stuff in a more nice way, please do share the results!
 
 ### GENERAL NOTES:
