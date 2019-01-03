@@ -1,4 +1,4 @@
-# Building GCC 4.7.4 for IRIX
+# Manually building GCC 4.7.4 IRIX crosscompiler
 
 ### Dependencies
 
@@ -20,7 +20,7 @@ Add $BINUTILS_PREFIX to your PATH.
 ### GCC Build
 
 Clone Onre's GCC 4.7.4 IRIX branch somewhere (we will call this $GCCSRC):
-`git clone -b gcc-4.7_irix https://github.com/onre/gcc`
+`git clone -b gcc-4_7-irix https://github.com/onre/gcc`
 
 Create a build directory and run:
 ```
