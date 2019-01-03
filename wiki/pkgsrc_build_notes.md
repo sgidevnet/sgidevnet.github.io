@@ -6,13 +6,8 @@
 
 **ANOTHER DISCLAIMER:**
 
-[[https://onedublin.files.wordpress.com/2014/06/meme-i-have-no-idea-what-i-am-doing.png]]
-
-**THIRD DISCLAIMER:**
-
 I know much of this is hacky. If you have time and/or resources to do
 stuff in a more nice way, please do share the results!
-
 
 ### GENERAL NOTES:
 
