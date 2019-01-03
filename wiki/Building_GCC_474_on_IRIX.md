@@ -18,7 +18,7 @@ Add $BINUTILS_PREFIX to your PATH.
 
 Clone Onre's GCC 4.7.4 IRIX branch somewhere (we will call this $GCCSRC):
 `git clone -b gcc-4.7_irix https://github.com/onre/gcc`
-Create a build directory, and run:
+Create a build directory and run:
 ```
 export AS_FOR_TARGET="mips-sgi-irix6.5-as"
 export LD_FOR_TARGET="mips-sgi-irix6.5-ld"
