@@ -44,7 +44,7 @@ stuff in a more nice way, please do share the results!
 
 ### PER PACKAGE NOTES:
 
-###### bootstrap:
+##### bootstrap:
 * requires CC to be set, otherwise tries to use MipsPRO at a certain step
 * after bootstrap you need to manually add this to your etc/mk.conf to
   make sure pkgsrc does not use the system ksh.
@@ -56,7 +56,7 @@ CONFIG_SHELL=           ${your_prefix}/pkg/bin/pdksh
 
 (there was nonsense here about c99. gcc mkheaders script took care of that.)
 
-###### bsdtar:
+##### bsdtar:
 
 libarchive-3.3.2/libarchive/archive_read_disk_posix.c:
 steal this from <sys/dir.h> which conflicts with <dirent.h>:
@@ -64,7 +64,7 @@ steal this from <sys/dir.h> which conflicts with <dirent.h>:
 #define dirfd(dirp)     ((dirp)->dd_fd)
 ```
 
-###### gettext-tools:
+##### gettext-tools:
 
 
 gettext-0.19.8.1/gettext-tools/gnulib-lib/libxml/trionan.c:
@@ -72,16 +72,16 @@ gettext-0.19.8.1/gettext-tools/gnulib-lib/libxml/trionan.c:
 #include <float.h>
 ```
 
-###### xz:
+##### xz:
 aforementioned libtool/buildlink bug
 
-###### perl5:
+##### perl5:
 * find the perl link command (string '-o perl') in work/.work.log and relink without
 rpath /usr/lib32
 
 * change LD_LIBRARY_PATH to LD_LIBRARYN32_PATH in Makefile
 
-###### help2man:
+##### help2man:
 in bindtextdomain.c:
 ```
 #ifdef __sgi
@@ -89,20 +89,20 @@ static void *RTLD_NEXT = 0;
 #endif
 ```
 
-###### gtexinfo:
+##### gtexinfo:
 half of this needs SIZE_MAX. add this to top of 
 tp/Texinfo/Convert/XSParagraph/config.h:
 ```
 #include <stdint-gcc.h>
 ```
 
-###### screen:
+##### screen:
 socket.c:
 ```
 #define SCM_RIGHTS 1
 ```
 
-###### pkgconf:
+##### pkgconf:
 * libtool wrapper script failure
 * stdinc.h: change line 55 to:
 ```
@@ -110,10 +110,10 @@ socket.c:
 ```
   ... otherwise the binary will crash. IRIX seriously does not like %zu.
 
-###### scmcvs:
+##### scmcvs:
 pkgconf managed to find an incorrect libz to link against, congrats pkgconf
 
-###### openssh:
+##### openssh:
 ```
 $ nm `which ssh`|grep ntop
          U __b64_ntop
@@ -122,10 +122,10 @@ $ nm `which ssh`|grep ntop
 * these are in /usr/lib32/libc.so, but ...something
 * just remove from config.h and recompile
 
-###### flex:
+##### flex:
 - add -lgen to LIBS in Makefile and src/Makefile
 
-###### util-linux:
+##### util-linux:
 * this is a mess. no surprise, given the name!
 include/c.h:
 ```
@@ -160,10 +160,10 @@ remove err.h
 
 ...still not there...
 
-###### bsdtar: 
+##### bsdtar: 
 * add `<sys/resource.h>` to archive_random.c
 
-###### gettext-tools:
+##### gettext-tools:
 - add `<float.h>` to trionan.c
 - add to plural-eval.h:
 ```
@@ -171,7 +171,7 @@ remove err.h
 typedef __uint64_t sigjmp_buf[_SIGJBLEN];
 ```
 
-###### python27:
+##### python27:
 work/Python-2.7.15/Include/pyport.h:
 - line 332, comment it out - sys/time.h and unistd.h can conflict
   because sys/time.h redefines select() under certain conditions
@@ -181,16 +181,16 @@ Modules/stringmodule.c:
 #define _ABIAPI 1 just before including sys/time.h
 ```
 
-###### vim-share:
+##### vim-share:
 * make pathdef.sh use bash
 WIP
 
-###### mandoc:
+##### mandoc:
 compat_strtonum.c:
 
 define __c99 for the duration of including limits.h
 
-###### libatomic_ops:
+##### libatomic_ops:
 atomic_ops.c:
 
 `#include <sys/resource.h>`
