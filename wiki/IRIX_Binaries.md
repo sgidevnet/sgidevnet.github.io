@@ -22,7 +22,7 @@ Inside the file there is an optlocal.profile file which sets rld search paths ac
 
 **NOTE**: this includes an /etc/sudoers file with my username. Replace with yours instead of blaming me about trying to hack you.
 
-**NOTE**: curl expects to find a cacert.pem containing certificates in /opt/local/etc. More info.
+**NOTE**: curl expects to find a cacert.pem containing certificates in /opt/local/etc. You can get it here: [https://curl.haxx.se/ca/cacert.pem](https://curl.haxx.se/ca/cacert.pem).
 
 What's included:
 
