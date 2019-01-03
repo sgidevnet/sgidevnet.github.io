@@ -12,6 +12,8 @@ This is an updated version, fixing a couple of stupidities in the previous tarba
 
 [https://esp.iki.fi/irix-gnu-grep.tgz](https://esp.iki.fi/irix-gnu-grep.tgz)
 
+This supports the -r option, making it rather useful for finding out where something is #defined.
+
 ## "Lots of stuff"
 
 [https://esp.iki.fi/irix-optlocal.tgz](https://esp.iki.fi/irix-optlocal.tgz)
