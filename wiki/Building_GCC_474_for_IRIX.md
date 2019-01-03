@@ -6,6 +6,7 @@ Needed dependencies for a Debian/Ubuntu system are:
 ```
 build-essential bison flex libgmp-dev libmpfr-dev libmpc-dev texinfo
 ```
+You also need a copy of IRIX's headers and libraries. That location will be referred to as $IRIXROOT.
 
 ### Binutils
 
