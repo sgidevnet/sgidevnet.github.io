@@ -6,7 +6,7 @@ Unxmaal and onre have worked together to give us a nice and easy method to cross
 
 Crosscompilation brings a number of advantages including vastly improved compilation times.
 
-### Getting started
+### Setting up compilertron
 
 * Make sure you have Vagrant, Virtualbox, and Git
 * Clone Unxmaal's compilertron repo - `git clone https://github.com/unxmaal/compilertron`
