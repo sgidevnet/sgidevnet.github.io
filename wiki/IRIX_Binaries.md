@@ -20,7 +20,7 @@ This supports the -r option, making it rather useful for finding out where somet
 
 Inside the file there is an optlocal.profile file which sets rld search paths accordingly.
 
-**NOTE**: this includes an /etc/sudoers file with my username. Replace with yours instead of blaming me about trying to hack you.
+**NOTE**: this includes an /etc/sudoers file with my username. Replace with yours instead of blaming onre for trying to hack you.
 
 **NOTE**: curl expects to find a cacert.pem containing certificates in /opt/local/etc. You can get it here: [https://curl.haxx.se/ca/cacert.pem](https://curl.haxx.se/ca/cacert.pem).
 
