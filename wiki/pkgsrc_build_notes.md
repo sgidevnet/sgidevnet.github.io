@@ -11,7 +11,7 @@ stuff in a more nice way, please do share the results!
 
 ### GENERAL NOTES:
 
-- quick way of searching for packages in pkgsrc: cd ${wherever_you_put_pkgsrc}; ls -d */packagename
+- quick way of searching for packages in pkgsrc: `cd ${wherever_you_put_pkgsrc}; ls -d */packagename`
 - looks like _POSIX90 and _NO_ANSIMODE are always defined, at least with --std=c99
 
 ### SUGGESTED FIRST PACKAGES TO INSTALL:
