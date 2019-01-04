@@ -1,24 +1,21 @@
 # pkgsrc build notes
 
-### DISCLAIMER:
+### DISCLAIMER
 
 **THIS DOCUMENT IS A WORK IN PROGRESS!**
 
-**ANOTHER DISCLAIMER:**
+### ANOTHER DISCLAIMER
 
 We know much of this is hacky. If you have time and/or resources to do
 stuff in a more nice way, please do share the results!
 
-### GENERAL NOTES:
+### GENERAL NOTES
 
 - quick way of searching for packages in pkgsrc: `cd ${wherever_you_put_pkgsrc}; ls -d */packagename`
 - looks like _POSIX90 and _NO_ANSIMODE are always defined, at least with --std=c99
+- in due time I (onre) will make proper patches of all of this
 
-### SUGGESTED FIRST PACKAGES TO INSTALL:
-
-...
-
-### OUTSTANDING ISSUES:
+### OUTSTANDING ISSUES
 
 * if there's a package which depends on its own libraries (say, bzip2
   which uses libbz2 in linking the bzip2 command), buildlink fails to
@@ -36,8 +33,12 @@ stuff in a more nice way, please do share the results!
 * libtool wrapper script failure: if you read this from a package
   description, read xz package's description to see what it's
   about. (pain)
+  
+* weird linking error with ld not finding "sgi2.0": libtool script
+  does not believe we have GNU binutils. it has to be edited directly
+  to get rid of this behaviour.
 
-### PER PACKAGE NOTES:
+### PER PACKAGE NOTES
 
 ##### bootstrap:
 * requires CC to be set, otherwise tries to use MipsPRO at a certain step
