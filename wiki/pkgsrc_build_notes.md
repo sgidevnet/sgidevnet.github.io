@@ -199,4 +199,13 @@ atomic_ops.c:
 
 `#include <sys/resource.h>`
 
+##### libidn:
+gl/getopt-ext.h:
+comment out the offending things on lines 50 and 66
+
+gl/getopt1.c:
+comment out the function starting at line 28
+WIP
+
+
 
