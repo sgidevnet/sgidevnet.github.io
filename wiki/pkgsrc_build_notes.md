@@ -118,10 +118,11 @@ $ nm `which ssh`|grep ntop
 * just remove from config.h and recompile
 
 ##### flex:
-- add -lgen to LIBS in Makefile and src/Makefile
+* add `-lgen` to LIBS in Makefile and src/Makefile
 
 ##### util-linux:
 * this is a mess. no surprise, given the name!
+
 include/c.h:
 ```
 /*
@@ -143,14 +144,17 @@ static inline size_t get_hostname_max(void)
 ```
 
 lib/env.c line 93:
+
 ```
 #if defined(HAVE_PRCTL) && !defined(__sgi)
 ```
 
 config.h:
+
 just disable HAVE_PRCTL entirely
 
 lib/pager.c:
+
 remove err.h
 
 ...still not there...
@@ -161,6 +165,7 @@ remove err.h
 ##### gettext-tools:
 - add `<float.h>` to trionan.c
 - add to plural-eval.h:
+
 ```
 #include <stdint.h>
 typedef __uint64_t sigjmp_buf[_SIGJBLEN];
@@ -168,16 +173,19 @@ typedef __uint64_t sigjmp_buf[_SIGJBLEN];
 
 ##### python27:
 work/Python-2.7.15/Include/pyport.h:
-- line 332, comment it out - sys/time.h and unistd.h can conflict
+
+* line 332, comment it out - sys/time.h and unistd.h can conflict
   because sys/time.h redefines select() under certain conditions
 
 Modules/stringmodule.c:
+
 ```
 #define _ABIAPI 1 just before including sys/time.h
 ```
 
 ##### vim-share:
 * make pathdef.sh use bash
+
 WIP
 
 ##### mandoc:
