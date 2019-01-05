@@ -173,16 +173,22 @@ typedef __uint64_t sigjmp_buf[_SIGJBLEN];
 ```
 
 ##### python27:
-work/Python-2.7.15/Include/pyport.h:
+Include/pyport.h:
 
 * line 332, comment it out - sys/time.h and unistd.h can conflict
   because sys/time.h redefines select() under certain conditions
+
+Modules/signalmodule.c:
+
+`#include <sys/resource.h>`
 
 Modules/stringmodule.c:
 
 ```
 #define _ABIAPI 1 just before including sys/time.h
 ```
+
+WIP - and there must be a clean and sane way of getting everything defined. I just haven't figured it out yet.
 
 ##### vim-share:
 * make pathdef.sh use bash
