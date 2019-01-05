@@ -8,6 +8,10 @@ Welcome to the SGIdev Network wiki!
 
 [Quirks noted when crosscompiling software](wiki/Quirks_noted_when_crosscompiling_software.html)
 
+### Porting
+
+[General information about porting software to IRIX](wiki/General_information_about_porting_software_to_IRIX.html)
+
 ### pkgsrc
 [pkgsrc build notes](wiki/pkgsrc_build_notes.html)
 
