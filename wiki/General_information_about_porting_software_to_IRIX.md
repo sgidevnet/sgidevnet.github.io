@@ -17,6 +17,22 @@ the compiler complains to us about an `incomplete type` or an
 
 A bit surprisingly, this is easiest found in `<sys/resource.h>`
 
+## Equivalences
+
+### anonymous mmap()
+
+IRIX does not have this. Instead, you can open /dev/zero, establish a
+private mmap and immediately close /dev/zero. Functionally this should
+be a close equivalent.
+
+### CLOCK_MONOTONIC
+
+This definition is used to set up a clock that has an arbitrary
+starting point in time and thus is not affected by changing system
+time - basically a hardware counter unaffected by wall clock
+time. IRIX has this functionality in `<sys/ptimers.h>`, it's called
+`CLOCK_SGI_CYCLE`.
+
 ## Miscellaneous information
 
 ### _SGIAPI, _ABIAPI etc
