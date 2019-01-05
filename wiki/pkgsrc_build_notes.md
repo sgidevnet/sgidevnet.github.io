@@ -40,6 +40,8 @@ stuff in a more nice way, please do share the results!
 
 ### PER PACKAGE NOTES
 
+If something is marked as WIP, it's work in progress and won't work as is.
+
 ##### bootstrap:
 * requires CC to be set, otherwise tries to use MipsPRO at a certain step
 * after bootstrap you need to manually add this to your etc/mk.conf to
@@ -205,9 +207,9 @@ change line 58 to
 WIP - there must be a clean and sane way of getting everything defined. I just haven't figured it out yet.
 
 ##### vim-share:
-* make pathdef.sh use bash
-
 WIP
+
+* make pathdef.sh use bash
 
 ##### mandoc:
 compat_strtonum.c:
@@ -220,12 +222,59 @@ atomic_ops.c:
 `#include <sys/resource.h>`
 
 ##### libidn:
+WIP
+
 gl/getopt-ext.h:
 comment out the offending things on lines 50 and 66
 
 gl/getopt1.c:
 comment out the function starting at line 28
-WIP
 
+##### ruby25:
+Truly a WIP.
 
+addr2line.c:
+```
+#ifdef __sgi
+#include <rld_interface.h>
+#include <dlfcn.h>
+#define _RLD_DLADDR             14
+int dladdr(void *address, Dl_info *dl);
+
+int dladdr(void *address, Dl_info *dl)
+{
+        void *v;
+        v = _rld_new_interface(_RLD_DLADDR,address,dl);
+        return (int)v;
+}
+                        
+#endif
+```
+cont.c:
+```
+#if defined(MAP_STACK) && !defined(__FreeBSD__) && !defined(__FreeBSD_kernel__)
+#define FIBER_STACK_FLAGS (MAP_PRIVATE | MAP_ANON | MAP_STACK)
+#elif defined(__sgi)
+#define FIBER_STACK_FLAGS (MAP_PRIVATE)
+#else
+#define FIBER_STACK_FLAGS (MAP_PRIVATE | MAP_ANON)
+#endif
+```
+io.c:
+line 1649:
+```
+#ifdef __sgi
+#define IOV_MAX sysconf(_SC_IOV_MAX)
+#endif
+```
+
+Alter Makefile so that when linking miniruby
+`-Wl,--unresolved-symbols=ignore-all` is used, as _rld_new_interface is
+provided by IRIX runtime linker and thus not visible in linking
+phase. The executable will nonetheless work.
+
+`-lpthread` may end up twice into Makefile
+
+`-L/usr/lib32` needs to be added in many places - binutils should
+search there by default?
 
