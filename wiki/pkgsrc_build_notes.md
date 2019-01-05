@@ -173,22 +173,36 @@ typedef __uint64_t sigjmp_buf[_SIGJBLEN];
 ```
 
 ##### python27:
-Include/pyport.h:
-
-* line 332, comment it out - sys/time.h and unistd.h can conflict
-  because sys/time.h redefines select() under certain conditions
-
-Modules/signalmodule.c:
-
-`#include <sys/resource.h>`
-
-Modules/stringmodule.c:
-
+pkgsrc Makefile:
+change:
 ```
-#define _ABIAPI 1 just before including sys/time.h
+.elif ${OPSYS} == "IRIX"
+PY_PLATNAME=    ${LOWER_OPSYS}${OS_VERSION:C/\..*//}
 ```
 
-WIP - and there must be a clean and sane way of getting everything defined. I just haven't figured it out yet.
+PLIST:
+add `spwd.so` and `libpython.a`
+
+Makefile (after running configure):
+
+change LD definitions to:
+```
+LDSHARED=       gcc  -shared  $(LDFLAGS)
+BLDSHARED=      gcc  -shared  $(LDFLAGS)
+LDCXXSHARED=    g++  -shared
+```
+
+Include/Python.h:
+move `#include "pyport.h"` up so that it is included before `<unistd.h>`
+
+Modules/socketmodule.c:
+`#define NI_NUMERICHOST  0x2`
+
+Modules/mathmodule.c:
+change line 58 to 
+`#if (defined(_OSF_SOURCE) || defined(__sgi))`
+
+WIP - there must be a clean and sane way of getting everything defined. I just haven't figured it out yet.
 
 ##### vim-share:
 * make pathdef.sh use bash
