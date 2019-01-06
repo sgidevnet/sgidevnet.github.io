@@ -21,4 +21,5 @@ Welcome to the SGIdev Network wiki!
 
 ### Developer resources
 [TechPubs for Developers](https://techpubs.jurassic.nl/manuals/0650/developer/)
+
 [Motif Programming Manual](https://www.oreilly.com/openbook/motif/vol6a/Vol6a_html/toc.html)
