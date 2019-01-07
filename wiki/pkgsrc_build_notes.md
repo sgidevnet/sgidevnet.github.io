@@ -278,3 +278,90 @@ phase. The executable will nonetheless work.
 `-L/usr/lib32` needs to be added in many places - binutils should
 search there by default?
 
+##### libxml2
+
+xpath.c:
+```
+#ifndef NAN
+#define NAN (0.0 / 0.0)
+#endif
+
+#ifndef INFINITY
+#define INFINITY HUGE_VAL
+#endif
+
+#define INFINITY HUGE_VAL
+double xmlXPathNAN;
+double xmlXPathPINF;
+double xmlXPathNINF;
+
+/**
+ * xmlXPathInit:
+ *
+ * Initialize the XPath environment
+ *
+ * Does nothing but must be kept as public function.
+ */
+ 
+void
+xmlXPathInit(void) {
+        xmlXPathNAN = NAN;
+        xmlXPathPINF = INFINITY;
+        xmlXPathNINF = -INFINITY;
+}
+```
+
+##### gmp
+do something to ABI in pkgsrc Makefile
+
+##### unzip
+add IRIX to the if clause for `CPPFLAGS+=      -DNO_LCHMOD`
+
+##### libxcb
+undefined HAVE_SENDMSG in config.h as IRIX version doesn't support SCM_RIGHTS
+
+##### libX11
+xcb_io.c:
+#include <sys/resource.h>
+
+##### libSM:
+sm_genid.c:
+uuid.h is sys/uuid.h on IRIX
+
+##### libexecinfo:
+```
+#if defined(__sun) || defined(__sgi)
+#include <alloca.h>
+#endif
+
+#ifdef __sgi
+#include <rld_interface.h>
+#include <dlfcn.h>
+#define _RLD_DLADDR             14
+int dladdr(void *address, Dl_info *dl);
+
+int dladdr(void *address, Dl_info *dl)
+{
+        void *v;
+        v = _rld_new_interface(_RLD_DLADDR,address,dl);
+        return (int)v;
+}
+                        
+#endif
+```
+
+##### libuv:
+src/unix/core.c:
+```
+#if defined(__sun) || defined(__sgi)
+```
+
+##### curl:
+pkgsrc Makefile:
+```
+LIBS+= -lpthread
+```
+
+##### cmake:
+export CXX=g++
+export MAKE=gmake
