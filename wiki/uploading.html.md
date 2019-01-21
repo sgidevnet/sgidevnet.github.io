@@ -1,5 +1,5 @@
 # Overview
-SGIdev has a software distribution service available at `sgi.retrote.ch` (temporary domain, to be replaced). Developers creating ported software can upload compiled versions to this repository to make them available for other users.
+SGIdev has a software distribution service available at <http://sgi.retrote.ch> (temporary domain, to be replaced). Developers creating ported software can upload compiled versions to this repository to make them available for other users.
 
 # Getting set up
 ## Installing AWS CLI
@@ -32,6 +32,8 @@ This will make your software appear at: `http://sgi.retrote.ch/{category}/{name}
 
 For example, if one performed the following command:
 ``aws s3 cp emacs-26.1.tgz s3://sgi-dev-public/editors/emacs/``, the software would then be available at `http://sgi.retrote.ch/editors/emacs/emacs-26.1-201901171502.tgz`.
+
+**Note:** Directory listings are generated once an hour (on the :21 minute mark), and each `index.html` (like all other objects) may be cached for *up to a day*. Directory listings thus will only eventually, not immediately, reflect the most up to date software listings.
 
 # Removing old builds
 While space in S3 is both cheap and unlimited, package maintainers are encouraged to remove erroneous uploads and packages with major security issues.
