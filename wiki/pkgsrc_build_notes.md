@@ -363,5 +363,31 @@ LIBS+= -lpthread
 ```
 
 ##### cmake:
+gcc 4.7 won't do.
+
 export CXX=g++
 export MAKE=gmake
+
+##### tcl:
+SHLIB_LD=gcc -shared
+timezone data is missing from PLIST, copypaste the error and do something like this
+```
+awk '{print $2;}' < /tmp/extrafiles | sed s,/mnt/extra/esp/pkgsrc/lang/tcl/work/.destdir/usr/people/esp/pkg/,,g | sed 's,lib/tcl8.6,lib/tcl${BASEVER},g' >> PLIST
+```
+
+##### emacs21
+change configure script so that mipseb gets recognized too
+
+##### emacs26
+WIP
+
+lib/getopt.h.in:
+make getopt.h included after std*.h
+
+##### libaudiofile
+make this use getopt
+
+##### libgetopt
+add IRIX to the if clause for:
+CFLAGS+=        -DREPLACE_GETOPT
+
