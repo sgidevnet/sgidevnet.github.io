@@ -12,6 +12,8 @@ Welcome to the SGIdev Network wiki!
 
 [General information about porting software to IRIX](wiki/General_information_about_porting_software_to_IRIX.html)
 
+[Uploading for Distribution](wiki/uploading.html)
+
 ### pkgsrc
 [pkgsrc build notes](wiki/pkgsrc_build_notes.html)
 
