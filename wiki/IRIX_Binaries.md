@@ -1,5 +1,9 @@
 # IRIX Binaries
 
+## Recommended: Uploaded tardists
+
+We are uploading tardists of packages at [sgi.retrote.ch](http://sgi.retrote.ch/index.html)!
+
 ## GCC
 
 [https://esp.iki.fi/gcc-4.7.4-irix-3.tgz](https://esp.iki.fi/gcc-4.7.4-irix-3.tgz)
