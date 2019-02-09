@@ -2,7 +2,7 @@
 
 ## Recommended: Uploaded tardists
 
-We are uploading tardists of packages at [sgi.retrote.ch](http://sgi.retrote.ch/index.html)!
+We are uploading tardists of packages at [ports.sgi.sh](http://ports.sgi.sh)!
 
 ## GCC
 
