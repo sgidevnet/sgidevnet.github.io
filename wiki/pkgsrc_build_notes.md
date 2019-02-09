@@ -9,6 +9,10 @@
 We know much of this is hacky. If you have time and/or resources to do
 stuff in a more nice way, please do share the results!
 
+### DO THIS FIRST
+
+Install libgetopt with the change proposed in this document.
+
 ### GENERAL NOTES
 
 - quick way of searching for packages in pkgsrc: `cd ${wherever_you_put_pkgsrc}; ls -d */packagename`
@@ -57,7 +61,7 @@ CONFIG_SHELL=           ${your_prefix}/pkg/bin/pdksh
 ##### bsdtar:
 
 libarchive-3.3.2/libarchive/archive_read_disk_posix.c:
-steal this from <sys/dir.h> which conflicts with <dirent.h>:
+steal this from `<sys/dir.h>` which conflicts with `<dirent.h>`:
 ```
 #define dirfd(dirp)     ((dirp)->dd_fd)
 ```
