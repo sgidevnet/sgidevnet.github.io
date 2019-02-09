@@ -1,5 +1,5 @@
 # Overview
-SGIdev has a software distribution service available at <http://sgi.retrote.ch> (temporary domain, to be replaced). Developers creating ported software can upload compiled versions to this repository to make them available for other users.
+SGIdev has a software distribution service available at <http://ports.sgi.sh>. Developers creating ported software can upload compiled versions to this repository to make them available for other users.
 
 # Getting set up
 ## Installing AWS CLI
@@ -22,16 +22,16 @@ Once you have obtained credentials and have installed the AWS CLI, run `aws conf
 If you utilize the AWS CLI for more than just SGIdev uploads, we recommend setting up [named profiles](https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-profiles.html).
 
 # Project organization
-Projects are organized by software category and port name, under `sgi.retrote.ch/{category}/{name}`, e.g. `sgi.retrote.ch/editors/emacs`. To keep consistency, we suggest using the `{category}` and `{name}` values from the NetBSD ports list, found at: <http://cdn.netbsd.org/pub/pkgsrc/current/pkgsrc/README.html>. This will allow users to more easily locate software that they are familiar with.
+Projects are organized by software category and port name, under `ports.sgi.sh/{category}/{name}`, e.g. `ports.sgi.sh/editors/emacs`. To keep consistency, we suggest using the `{category}` and `{name}` values from the NetBSD ports list, found at: <http://cdn.netbsd.org/pub/pkgsrc/current/pkgsrc/README.html>. This will allow users to more easily locate software that they are familiar with.
 
 # Performing uploads
 To upload new software, utilize the AWS CLI as follows:
 ``aws s3 cp {package} s3://sgi-dev-public/{category}/{name}/`` (note the trailing slash).
 
-This will make your software appear at: `http://sgi.retrote.ch/{category}/{name}/{package}`
+This will make your software appear at: `http://ports.sgi.sh/{category}/{name}/{package}`
 
 For example, if one performed the following command:
-``aws s3 cp emacs-26.1.tgz s3://sgi-dev-public/editors/emacs/``, the software would then be available at `http://sgi.retrote.ch/editors/emacs/emacs-26.1-201901171502.tgz`.
+``aws s3 cp emacs-26.1.tgz s3://sgi-dev-public/editors/emacs/``, the software would then be available at `http://ports.sgi.sh/editors/emacs/emacs-26.1-201901171502.tgz`.
 
 **Note:** Directory listings are generated once an hour (on the :21 minute mark), and each `index.html` (like all other objects) may be cached for *up to a day*. Directory listings thus will only eventually, not immediately, reflect the most up to date software listings.
 
@@ -42,7 +42,7 @@ To remove a file, utilize the AWS CLI as follows:
 ``aws s3 rm s3://sgi-dev-public/{category}/{name}/{package}``
 
 For example:
-``aws s3 rm s3://sgi-dev-public/editors/emacs/``, the software would then be available at `http://sgi.retrote.ch/editors/emacs/emacs-26.1-201901171502.tgz``
+``aws s3 rm s3://sgi-dev-public/editors/emacs/``, the software would then be available at `http://ports.sgi.sh/editors/emacs/emacs-26.1-201901171502.tgz``
 
 ## Versioning & Caching
 Please note that the SGIdev software repository is heavily cached in a Global CDN (Amazon CloudFront). This means that if you upload a file (e.g. `emacs-26.1-201901171502.tgz`), realize there is an issue with the package, and then re-upload over the same file name, people may still receive the old (non-functional) file for up to a day before the cache expires.
