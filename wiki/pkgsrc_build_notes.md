@@ -66,6 +66,20 @@ steal this from `<sys/dir.h>` which conflicts with `<dirent.h>`:
 #define dirfd(dirp)     ((dirp)->dd_fd)
 ```
 
+##### libgetopt
+Modify the Makefile: add IRIX to the 'if' clause for:
+CFLAGS+=        -DREPLACE_GETOPT
+
+```
+.if ${OPSYS} == "IRIX" || ${OPSYS} == "AIX" || ${OPSYS} == "HPUX" || \
+        ${OPSYS} == "OSF1" || ${OPSYS} == "Linux" || ${OPSYS} == "SunOS"
+
+CFLAGS+=        -DREPLACE_GETOPT
+.endif
+```
+
+
+
 ##### gettext-tools:
 
 
@@ -391,7 +405,5 @@ make getopt.h included after std*.h
 ##### libaudiofile
 make this use getopt
 
-##### libgetopt
-add IRIX to the if clause for:
-CFLAGS+=        -DREPLACE_GETOPT
+
 
