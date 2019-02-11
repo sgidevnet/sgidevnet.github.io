@@ -33,9 +33,22 @@ time - basically a hardware counter unaffected by wall clock
 time. IRIX has this functionality in `<sys/ptimers.h>`, it's called
 `CLOCK_SGI_CYCLE`.
 
+## Missing stuff
+
+### setenv and getenv
+
+Yeah, they simply aren't there. A wrapper is rather trivial to write.
+
+### b64_ntop and b64_pton
+
+These symbols exist in libc.so but are hidden. If an application needs
+these, they need to be sourced from elsewhere. A suitable
+implementation for copypasting into your code can be found in glibc.
+
 ## Miscellaneous information
 
 ### _SGIAPI, _ABIAPI etc
 
 There's an explanation on how these work in `<sys/standards.h>`
-comments.
+comments. Basically - the larger value you assign to _XOPEN_SOURCE,
+the more modern featureset you will get.
