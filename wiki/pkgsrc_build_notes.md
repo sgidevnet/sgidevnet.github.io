@@ -66,6 +66,36 @@ steal this from `<sys/dir.h>` which conflicts with `<dirent.h>`:
 #define dirfd(dirp)     ((dirp)->dd_fd)
 ```
 
+##### libgetopt
+Modify the Makefile: add IRIX to the 'if' clause for:
+CFLAGS+=        -DREPLACE_GETOPT
+
+```
+.if ${OPSYS} == "IRIX" || ${OPSYS} == "AIX" || ${OPSYS} == "HPUX" || \
+        ${OPSYS} == "OSF1" || ${OPSYS} == "Linux" || ${OPSYS} == "SunOS"
+
+CFLAGS+=        -DREPLACE_GETOPT
+.endif
+```
+
+
+##### pkgconf:
+* libtool wrapper script failure
+  * I resolved this by copying the built pkgscr binary into the .destdir:
+  ```
+  cp work/pkgconf-1.4.1/pkgconf to work/.destdir/usr/pkg/bin/.
+  ```
+  * Remove any existing links in work/.destdir/usr/pkg/bin/.
+  * Then re-running bmake install
+
+* stdinc.h: change line 55 to:
+```
+# define SIZE_FMT_SPECIFIER     "%lu"
+```
+  ... otherwise the binary will crash. IRIX seriously does not like %zu.
+
+
+
 ##### gettext-tools:
 
 
@@ -104,13 +134,7 @@ socket.c:
 #define SCM_RIGHTS 1
 ```
 
-##### pkgconf:
-* libtool wrapper script failure
-* stdinc.h: change line 55 to:
-```
-# define SIZE_FMT_SPECIFIER     "%lu"
-```
-  ... otherwise the binary will crash. IRIX seriously does not like %zu.
+
 
 ##### scmcvs:
 pkgconf managed to find an incorrect libz to link against, congrats pkgconf
@@ -391,7 +415,5 @@ make getopt.h included after std*.h
 ##### libaudiofile
 make this use getopt
 
-##### libgetopt
-add IRIX to the if clause for:
-CFLAGS+=        -DREPLACE_GETOPT
+
 
