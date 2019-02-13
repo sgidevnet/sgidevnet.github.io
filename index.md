@@ -26,4 +26,4 @@ Welcome to the SGIdev Network wiki!
 
 [Motif Programming Manual](https://www.oreilly.com/openbook/motif/vol6a/Vol6a_html/toc.html)
 
-We also have a Discord server. Join us at [SGIdev Discord](https://discord.gg/a8S4mdv).
+We also have a Discord server. Join us at [SGIdev Discord](https://discord.gg/skp987v).
