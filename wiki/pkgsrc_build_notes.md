@@ -76,13 +76,6 @@ export CXX=/opt/local/gcc-4.7.4/bin/gcc
   package), get them so that the opterr/optopt dance does not need to
   be repeated on every one of them
 
-* libtool wrapper script failure: if you read this from a package
-  description, read xz package's description to see what it's
-  about. (pain)
-  
-* weird linking error with ld not finding "sgi2.0": libtool script
-  does not believe we have GNU binutils. it has to be edited directly
-  to get rid of this behaviour.
 
 ### PER PACKAGE NOTES
 
@@ -99,6 +92,9 @@ CONFIG_SHELL=           ${your_prefix}/pkg/bin/pdksh
 ```
 
 (there was nonsense here about c99. gcc mkheaders script took care of that.)
+
+##### libtool:
+For now, replace with https://esp.iki.fi/libtool .
 
 ##### bsdtar:
 
