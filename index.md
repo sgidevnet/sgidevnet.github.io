@@ -26,4 +26,4 @@ Welcome to the SGIdev Network wiki!
 
 [Motif Programming Manual](https://www.oreilly.com/openbook/motif/vol6a/Vol6a_html/toc.html)
 
-We also have a Discord server. Join us at [SGIdev Discord](https://discord.gg/skp987v).
+We also have a Discord server. Join us at [SGIdev Discord](https://discord.gg/skp987v). This Discord server is also bridged to irc.hashbang.sh:6697 (SSL required) #sgidev and on Matrix (community: [+sgug:matrix.org](https://riot.im/app/#/group/+sgug:matrix.org)).
