@@ -35,9 +35,12 @@ time. IRIX has this functionality in `<sys/ptimers.h>`, it's called
 
 ## Missing stuff
 
-### setenv and getenv
+### setenv and unsetenv
 
-Yeah, they simply aren't there. A wrapper is rather trivial to write.
+Yeah, they simply aren't there. A wrapper is rather trivial to
+write. Here's a GPLv3-licensed example of how to do it:
+
+http://www.man7.org/tlpi/code/online/dist/proc/setenv.c.html
 
 ### b64_ntop and b64_pton
 
