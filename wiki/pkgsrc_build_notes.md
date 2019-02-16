@@ -13,6 +13,48 @@ stuff in a more nice way, please do share the results!
 
 Install libgetopt with the change proposed in this document.
 
+#### Set up your environment
+* update /usr/pkg/etc/mk.conf
+
+```
+# Example /usr/people/esp/pkg/etc/mk.conf file produced by bootstrap-pkgsrc
+# Mon Feb  4 06:40:48 EST 2019
+
+.ifdef BSD_PKG_MK       # begin pkgsrc settings
+
+OPSYS=                  IRIX
+ABI=                    32
+PKGSRC_COMPILER=        gcc
+
+UNPRIVILEGED=           yes
+PKG_DBDIR=              /usr/pkg/pkgdb
+LOCALBASE=              /usr/pkg
+VARBASE=                /var
+PKG_TOOLS_BIN=          /usr/pkg/sbin
+PKGINFODIR=             info
+PKGMANDIR=              man
+
+MAKE_JOBS=              4
+
+TOOLS_PLATFORM.install?=        /usr/pkg/bin/install-sh
+TOOLS_PLATFORM.awk?=            /usr/pkg/bin/nawk
+TOOLS_PLATFORM.sed?=            /usr/pkg/bin/nbsed
+IMAKEOPTS+=             -DBuildN32 -DSgiISA32=4
+
+.endif                  # end pkgsrc settings
+```
+
+* set environment vars
+
+```
+export LD_LIBRARY_PATH=/opt/local/curl/lib:/opt/local/expat/lib:/opt/local/berkeley-db/lib:/opt/local/gmp/lib:/opt/local/mpc/lib:/opt/local/mpfr/lib:/opt/local/mpfr/lib:/opt/local/gcc-4.7.4/lib32:/opt/local/gcc-4.7.4/lib
+export LD_LIBRARYN32_PATH=$LD_LIBRARY_PATH
+export LIBRARY_PATH=$LD_LIBRARY_PATH
+export CC=/opt/local/gcc-4.7.4/bin/gcc
+export CXX=/opt/local/gcc-4.7.4/bin/gcc
+```
+
+
 ### GENERAL NOTES
 
 - quick way of searching for packages in pkgsrc: `cd ${wherever_you_put_pkgsrc}; ls -d */packagename`
@@ -34,13 +76,6 @@ Install libgetopt with the change proposed in this document.
   package), get them so that the opterr/optopt dance does not need to
   be repeated on every one of them
 
-* libtool wrapper script failure: if you read this from a package
-  description, read xz package's description to see what it's
-  about. (pain)
-  
-* weird linking error with ld not finding "sgi2.0": libtool script
-  does not believe we have GNU binutils. it has to be edited directly
-  to get rid of this behaviour.
 
 ### PER PACKAGE NOTES
 
@@ -57,6 +92,9 @@ CONFIG_SHELL=           ${your_prefix}/pkg/bin/pdksh
 ```
 
 (there was nonsense here about c99. gcc mkheaders script took care of that.)
+
+##### libtool:
+For now, replace with https://esp.iki.fi/libtool .
 
 ##### bsdtar:
 
