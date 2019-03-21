@@ -1,5 +1,9 @@
 # SGIdev Network
-Welcome to the SGIdev Network wiki!
+Welcome to the SGIdev Network wiki, part of the Silicon Graphics User Group!
+
+Please help contribute knowledge to our community by adding to our wiki or posting on our forums.
+
+**See also:** [Silicon Graphics User Group forums](https://forums.sgi.sh)
 
 ### Crosscompilation
 [Setting up a crosscompilation environment](wiki/crosscompiling.html)
