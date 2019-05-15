@@ -1,9 +1,12 @@
 pkgsrc setup notes
+* Install https://esp.iki.fi/irix-optlocal.tgz
+* Install gcc 8.2 from this tardist http://ports.sgi.sh/lang/gcc82/index.html 
 
+* Run this fix
 ```
 cp /opt/local/gcc-4.7.4/lib/gcc/mips-sgi-irix6.5/4.7.4/include-fixed/limits.h /opt/local/gcc-8.2.0/lib/gcc/mips-sgi-irix6.5/8.2.0/include-fixed/limits.h
 ```
-
+* Make a script to set up your environment
 ```
 #/root/setenv.sh
 #_cdir="gcc-4.4.7"
@@ -33,6 +36,60 @@ export AR_FLAGS=cr
 
 source /root/setenv.sh
 ```
+* Get pkgsrc from https://github.com/sgidevnet/pkgsrc
+* cd /usr/pkgsrc/bootstrap
+* Set up your mk.conf 
+
+```
+# Mon Feb  4 06:40:48 EST 2019
+
+.ifdef BSD_PKG_MK       # begin pkgsrc settings
+
+OPSYS=                  IRIX
+ABI=                    32
+PKGSRC_COMPILER=        gcc
+
+UNPRIVILEGED=           yes
+PKG_DBDIR=              /usr/pkg/pkgdb
+LOCALBASE=              /usr/pkg
+VARBASE=                /var
+PKG_TOOLS_BIN=          /usr/pkg/sbin
+PKGINFODIR=             info
+PKGMANDIR=              man
+
+MAKE_JOBS=              4
+
+PKGSRC_SHOW_BUILD_DEFS?=yes
+FIX_SYSTEM_HEADERS=yes
+SMART_MESSAGES=yes
+
+TOOLS_PLATFORM.install?=        /usr/pkg/bin/install-sh
+TOOLS_PLATFORM.awk?=            /usr/nekoware/bin/gawk
+TOOLS_PLATFORM.sed?=            /usr/nekoware/bin/sed
+IMAKEOPTS+=             -DBuildN32 -DSgiISA32=4
+
+.endif                  # end pkgsrc settings
+```
+
+* Run bootstrap with this mk.conf "fragment"
+```
+./bootstrap --mk-fragment mk.conf
+```
+
+* If that worked, try to compile bzip2
+```
+cd /usr/pkgsrc/archivers/bzip2
+bmake
+bmake install
+```
+
+It'll fail here. You can clean up with 
+```
+bmake clean
+```
+
+
+
 -----------------
 
 bmake in libtool failed at bzip2
