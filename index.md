@@ -20,7 +20,7 @@ Please help contribute knowledge to our community by adding to our wiki or posti
 
 ### pkgsrc
 * [pkgsrc build notes](wiki/pkgsrc_build_notes.html)
-* [Unxmaal's pkgsrc build notes](wiki/Unxmaal's pkgsrc build notes.html)
+* [Unxmaal's pkgsrc build notes](wiki/unxmaal_pkgsrc_build_notes.md)
 
 ### IRIX Binaries
 
