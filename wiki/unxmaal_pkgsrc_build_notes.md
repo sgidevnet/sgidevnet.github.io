@@ -431,4 +431,65 @@ lzmadec-xzdec.o: In function `main':
 (.text.startup+0xf0): undefined reference to `rpl_optind'
 collect2: error: ld returned 1 exit status```
 
+@HAL says to not use neko libs
+```
+export CC=/opt/local/$_cdir/bin/gcc
+export CXX=/opt/local/$_cdir/bin/gcc
+#export CFLAGS="-I/usr/nekoware/include -std=gnu99 -g0 -O2 -mips4"
+export CFLAGS="-std=gnu99 -g0 -O2 -mips4"
+export CXXFLAGS="-g0 -O2 -mips4"
+#export CPPFLAGS="-D_POSIX90 -I/usr/nekoware/include"
+export CPPFLAGS="-D_POSIX90"
+#export LDFLAGS=" -L/usr/local/lib -L/usr/local/lib32 -L/usr/nekoware/lib"
+export LDFLAGS=" -L/usr/local/lib -L/usr/local/lib32"
+export LD_LIBRARY_PATH=/opt/local/curl/lib:/opt/local/expat/lib:/opt/local/berkeley-db/lib:/opt/local/gmp/lib:/opt/local/mpc/lib:/opt/local/mpfr:/lib:/opt/local/mpfr/lib:/opt/local/$_cdir/lib32:/opt/local/$_cdir/lib
+export LIBRARY_PATH=$LD_LIBRARY_PATH
+export LD_LIBRARYN32_PATH=$LD_LIBRARY_PATH
 
+export AR=ar
+export ARFLAGS=cr
+export AR_FLAGS=cr
+```
+------
+
+this failed.
+
+Noticed ya_getopt from @onre. 
+```
+export CPPFLAGS="-D_POSIX90 -I/opt/local/ya_getopt/include"
+export LDFLAGS=" -L/usr/local/lib -L/usr/local/lib32 -L/opt/local/ya_getopt/lib"
+export LD_LIBRARY_PATH=/opt/local/curl/lib:/opt/local/expat/lib:/opt/local/berkeley-db/lib:/opt/local/gmp/lib:/opt/local/mpc/lib:/opt/local/mpfr:/lib:/opt/local/mpfr/lib:/opt/local/$_cdir/lib32:/opt/local/$_cdir/lib:/opt/local/ya_getopt/lib"
+```
+This also failed.
+
+Current error example:
+
+```
+++ printf '%s\n' 'libtool: link: gcc -D_REENTRANT -fvisibility=hidden -Wall -Wextra -Wvla -Wformat=2 -Winit-self -Wmissing-include-dirs -Wstrict-aliasing -Wfloat-equal -Wundef -Wshadow -Wpointer-arith -Wbad-function-cast -Wwrite-strings -Wlogical-op -Waggregate-return -Wstrict-prototypes -Wold-style-definition -Wmissing-prototypes -Wmissing-declarations -Wmissing-noreturn -Wredundant-decls -std=gnu99 -g0 -O2 -mips4 -I/usr/pkg/include -I/usr/include -Wl,-R/usr/lib32 -Wl,-R/usr/pkg/lib -o .libs/xzdec xzdec-xzdec.o xzdec-tuklib_progname.o xzdec-tuklib_exit.o  -L/usr/local/lib -L/usr/local/lib32 -L/opt/local/ya_getopt/lib -L/usr/pkg/lib -L/usr/lib32 ../../src/liblzma/.libs/liblzma.so -L/usr/pkgsrc/archivers/xz/work/.buildlink/lib ../../lib/libgnu.a -lpthread -lrt -Wl,-rpath -Wl,/usr/pkgsrc/archivers/xz/work/xz-5.2.4/src/liblzma/.libs:/usr/pkg/lib'
+libtool: link: gcc -D_REENTRANT -fvisibility=hidden -Wall -Wextra -Wvla -Wformat=2 -Winit-self -Wmissing-include-dirs -Wstrict-aliasing -Wfloat-equal -Wundef -Wshadow -Wpointer-arith -Wbad-function-cast -Wwrite-strings -Wlogical-op -Waggregate-return -Wstrict-prototypes -Wold-style-definition -Wmissing-prototypes -Wmissing-declarations -Wmissing-noreturn -Wredundant-decls -std=gnu99 -g0 -O2 -mips4 -I/usr/pkg/include -I/usr/include -Wl,-R/usr/lib32 -Wl,-R/usr/pkg/lib -o .libs/xzdec xzdec-xzdec.o xzdec-tuklib_progname.o xzdec-tuklib_exit.o  -L/usr/local/lib -L/usr/local/lib32 -L/opt/local/ya_getopt/lib -L/usr/pkg/lib -L/usr/lib32 ../../src/liblzma/.libs/liblzma.so -L/usr/pkgsrc/archivers/xz/work/.buildlink/lib ../../lib/libgnu.a -lpthread -lrt -Wl,-rpath -Wl,/usr/pkgsrc/archivers/xz/work/xz-5.2.4/src/liblzma/.libs:/usr/pkg/lib
+++ IFS='
+'
+++ :
++ false
++ eval 'gcc -D_REENTRANT -fvisibility=hidden -Wall -Wextra -Wvla -Wformat=2 -Winit-self -Wmissing-include-dirs -Wstrict-aliasing -Wfloat-equal -Wundef -Wshadow -Wpointer-arith -Wbad-function-cast -Wwrite-strings -Wlogical-op -Waggregate-return -Wstrict-prototypes -Wold-style-definition -Wmissing-prototypes -Wmissing-declarations -Wmissing-noreturn -Wredundant-decls -std=gnu99 -g0 -O2 -mips4 -I/usr/pkg/include -I/usr/include -Wl,-R/usr/lib32 -Wl,-R/usr/pkg/lib -o .libs/xzdec xzdec-xzdec.o xzdec-tuklib_progname.o xzdec-tuklib_exit.o  -L/usr/local/lib -L/usr/local/lib32 -L/opt/local/ya_getopt/lib -L/usr/pkg/lib -L/usr/lib32 ../../src/liblzma/.libs/liblzma.so -L/usr/pkgsrc/archivers/xz/work/.buildlink/lib ../../lib/libgnu.a -lpthread -lrt -Wl,-rpath -Wl,/usr/pkgsrc/archivers/xz/work/xz-5.2.4/src/liblzma/.libs:/usr/pkg/lib'
+++ gcc -D_REENTRANT -fvisibility=hidden -Wall -Wextra -Wvla -Wformat=2 -Winit-self -Wmissing-include-dirs -Wstrict-aliasing -Wfloat-equal -Wundef -Wshadow -Wpointer-arith -Wbad-function-cast -Wwrite-strings -Wlogical-op -Waggregate-return -Wstrict-prototypes -Wold-style-definition -Wmissing-prototypes -Wmissing-declarations -Wmissing-noreturn -Wredundant-decls -std=gnu99 -g0 -O2 -mips4 -I/usr/pkg/include -I/usr/include -Wl,-R/usr/lib32 -Wl,-R/usr/pkg/lib -o .libs/xzdec xzdec-xzdec.o xzdec-tuklib_progname.o xzdec-tuklib_exit.o -L/usr/local/lib -L/usr/local/lib32 -L/opt/local/ya_getopt/lib -L/usr/pkg/lib -L/usr/lib32 ../../src/liblzma/.libs/liblzma.so -L/usr/pkgsrc/archivers/xz/work/.buildlink/lib ../../lib/libgnu.a -lpthread -lrt -Wl,-rpath -Wl,/usr/pkgsrc/archivers/xz/work/xz-5.2.4/src/liblzma/.libs:/usr/pkg/lib
+xzdec-xzdec.o: In function `main':
+(.text.startup+0x68): undefined reference to `rpl_getopt_long'
+xzdec-xzdec.o: In function `main':
+(.text.startup+0x90): undefined reference to `rpl_optind'
+xzdec-xzdec.o: In function `main':
+(.text.startup+0xc0): undefined reference to `rpl_getopt_long'
+xzdec-xzdec.o: In function `main':
+(.text.startup+0xf0): undefined reference to `rpl_optind'
+collect2: error: ld returned 1 exit status
++ _G_status=1
++ test 0 -ne 1
++ eval '(exit 1); exit $?'
+++ exit 1
+++ exit 1
+*** Error code 1
+
+Stop.
+bmake[3]: stopped in /usr/pkgsrc/archivers/xz/work/xz-5.2.4/src/xzdec
+*** Error code 1
+```
