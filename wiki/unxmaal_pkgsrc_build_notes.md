@@ -96,7 +96,7 @@ bmake install
 -----------
 Compile time benchmarks
 
-
+```
 O2 R10000 250Mhz
 real    8m13.416s
 user    4m45.820s
@@ -106,11 +106,15 @@ O300 R14000 2x600
 real    2m28.847s
 user    1m57.118s
 sys     0m27.539s
-
-===============
+```
+----------
 
 # List of failures and experiments
 
+Better debug:
+```
+export PS4='${FUNCNAME[*]} : $LINENO '
+```
 
 bmake in libtool failed at bzip2
 
@@ -166,7 +170,7 @@ However, removing these 2 items allows the command to complete: -Wl,sgi1.0 -Wl,.
 [root@o2:/usr/pkgsrc/archivers/bzip2/work/bzip2-1.0.6] # gcc -shared -DPIC .libs/blocksort.o .libs/bzlib.o .libs/compress.o .libs/crctable.o .libs/decompress.o .libs/huffman.o .libs/randtable.o -L/usr/pkgsrc/archivers/bzip2/work/.buildlink/lib -Wl,-R/usr/pkg/lib -g0 -O2 -mips4 -g0 -O2 -mips4 -Wl,-soname -Wl,libbz2.so.1 -Wl,-set_version -Wl,-update_registry -o .libs/libbz2.s
 ```
 
->>>>>  Changing archive_cmds:
+Changing archive_cmds:
 ```
 archive_cmds="\$CC -shared \$pic_flag \$libobjs \$deplibs \$compiler_flags \$wl-soname \$wl\$soname  \$wl-update_registry -o \$lib"
 ```
@@ -208,17 +212,14 @@ Failure is here:
 ```
 Failing due to missing -lbz2
 
------------------  relink_command failure ----------
+## relink_command failure 
 ```
 11302  relink_command="(cd `pwd`; $SHELL \"$progpath\" $preserve_args --mode=relink $libtool_args @inst_prefix_dir@)"
 ```
 Could be due to sed issues, line 860.
 
 
->>>>>>> Better debug:
-```
-export PS4='${FUNCNAME[*]} : $LINENO '
-```
+
 
 Located in this file:
 ```
@@ -234,7 +235,7 @@ bzip2.c:(.text+0x430): undefined reference to `BZ2_bzlibVersion'
 
 It appears bmake didn't populate work/.buildlink at all. 
 
--------------------- missing libs in buildlink ------------------------
+## missing libs in buildlink 
 
 Restarted via 'bmake install'.
 
@@ -245,7 +246,7 @@ Restored library_names_spec . I am suspicious of the changes sed makes. Now that
 
 Ran bmake
 saw .o files in 
-
+```
 ./bzip2-1.0.6/.libs/blocksort.o
 ./bzip2-1.0.6/.libs/bzlib.o
 ./bzip2-1.0.6/.libs/compress.o
@@ -262,11 +263,11 @@ saw .o files in
 ./bzip2-1.0.6/randtable.o
 ./bzip2-1.0.6/bzip2.o
 ./bzip2-1.0.6/bzip2recover.o
-
+```
 Noted in work/.pkginstall there is a dedicated INSTALL script with different vars for things like sed and sh.
 -- doesn't seem to cause issues.
 
--------------- libtool relink error:
+## libtool relink error:
 libtool:   error: error: relink 'bzip2' with the above command before installing it
 ```
 libtool: install: (cd /usr/pkgsrc/archivers/bzip2/work/bzip2-1.0.6; LIBRARY_PATH=/opt/local/curl/lib:/opt/local/expat/lib:/opt/local/berkeley-db/lib:/opt/local/gmp/lib:/opt/local/mpc/lib:/opt/local/mpfr:/lib:/opt/local/mpfr/lib:/opt/local/gcc-8.2.0/lib32:/opt/local/gcc-8.2.0/lib; export LIBRARY_PATH; { test -z "" || unset COMPILER_PATH || { COMPILER_PATH=; export COMPILER_PATH; }; }; { test -z "" || unset GCC_EXEC_PREFIX || { GCC_EXEC_PREFIX=; export GCC_EXEC_PREFIX; }; }; LD_LIBRARYN32_PATH=/opt/local/curl/lib:/opt/local/expat/lib:/opt/local/berkeley-db/lib:/opt/local/gmp/lib:/opt/local/mpc/lib:/opt/local/mpfr:/lib:/opt/local/mpfr/lib:/opt/local/gcc-8.2.0/lib32:/opt/local/gcc-8.2.0/lib; export LD_LIBRARYN32_PATH; PATH=/usr/pkgsrc/archivers/bzip2/work/.wrapper/bin:/usr/pkgsrc/archivers/bzip2/work/.buildlink/bin:/usr/pkgsrc/archivers/bzip2/work/.tools/bin:/usr/pkgsrc/archivers/bzip2/work/.gcc/bin:/usr/pkg/bin:/usr/pkg/bin:/usr/pkg/sbin:/usr/pkg/bin:/usr/pkg/sbin:/opt/local/bin:/opt/local/sbin:/usr/nekoware/bin:/usr/nekoware/sbin:/usr/etc:/usr/sbin:/usr/bsd:/sbin:/usr/bin:/etc:/usr/etc:/usr/bin/X11:/opt/local/gcc-8.2.0/bin/; export PATH; gcc -Wl,-R/usr/pkg/lib -std=gnu99 -g0 -O2 -mips4 -std=gnu99 -g0 -O2 -mips4 -D_POSIX90 -Wall -Winline -fomit-frame-pointer -D_LARGEFILE_SOURCE -D_LARGE_FILES -D_FILE_OFFSET_BITS=64 -o /tmp/libtool-16277425941/bzip2 bzip2.o  -L/usr/pkg/lib -lbz2 -L/usr/pkgsrc/archivers/bzip2/work/.buildlink/lib -Wl,-rpath -Wl,/usr/pkg/lib)
@@ -323,9 +324,9 @@ libtool: install: (cd /usr/pkgsrc/archivers/bzip2/work/bzip2-1.0.6;
 ------
 -lbz2 found in work/.wrapper/tmp/cache
 
-============
+----------------
 
-New idea: adjust per-pkg Makefiles to replace libtool with 'cp' for 'bmake install'
+## New idea: adjust per-pkg Makefiles to replace libtool with 'cp' for 'bmake install'
 
 
 Wrapper files are found in work/bzip2-1.0.6. 
@@ -377,7 +378,7 @@ do-install:
 Using 'cp' instead of libtool allows make install to complete, but fails to link the libs properly.
 
 Per above, command is:
-
+```
 cd /usr/pkgsrc/archivers/bzip2/work/bzip2-1.0.6
 LIBRARY_PATH=/opt/local/curl/lib:/opt/local/expat/lib:/opt/local/berkeley-db/lib:/opt/local/gmp/lib:\
     /opt/local/mpc/lib:/opt/local/mpfr:/lib:/opt/local/mpfr/lib:/opt/local/gcc-8.2.0/lib32:/opt/local/gcc-8.2.0/lib
@@ -403,14 +404,18 @@ PATH=/usr/pkgsrc/archivers/bzip2/work/.wrapper/bin:/usr/pkgsrc/archivers/bzip2/w
     /opt/local/gcc-8.2.0/bin/
 export PATH
 gcc -Wl,-R/usr/pkg/lib -std=gnu99 -g0 -O2 -mips4 -std=gnu99 -g0 -O2 -mips4 -D_POSIX90 -Wall -Winline -fomit-frame-pointer -D_LARGEFILE_SOURCE -D_LARGE_FILES -D_FILE_OFFSET_BITS=64 -o @OUTPUT@ bzip2.o  -L/usr/pkg/lib -lbz2 -L/usr/pkgsrc/archivers/bzip2/work/.buildlink/lib -Wl,-rpath -Wl,/usr/pkg/lib
+```
 ----------
 
 Note here, .buildlink/lib is empty. 
 
 I copied the appropriate items into .buildlink/ and it created the package properly.
-
+```
 cp bzip2-1.0.6/.libs/bzip2 .buildlink/bin/.
 cp ./bzip2-1.0.6/.libs/* .buildlink/lib/.
+```
+
+This solved the problem.
 
 ---------- 
 # Building XZ
