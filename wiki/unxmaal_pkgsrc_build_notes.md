@@ -1,4 +1,4 @@
-pkgsrc setup notes
+# pkgsrc setup notes
 * Install https://esp.iki.fi/irix-optlocal.tgz
 * Install gcc 8.2 from this tardist http://ports.sgi.sh/lang/gcc82/index.html 
 
@@ -7,7 +7,6 @@ pkgsrc setup notes
 cp /opt/local/gcc-4.7.4/lib/gcc/mips-sgi-irix6.5/4.7.4/include-fixed/limits.h /opt/local/gcc-8.2.0/lib/gcc/mips-sgi-irix6.5/8.2.0/include-fixed/limits.h
 ```
 * Make a script to set up your environment
-
 ```
 #/root/setenv.sh
 #_cdir="gcc-4.4.7"
@@ -37,11 +36,9 @@ export AR_FLAGS=cr
 
 source /root/setenv.sh
 ```
-
 * Get pkgsrc from https://github.com/sgidevnet/pkgsrc
 * cd /usr/pkgsrc/bootstrap
 * Set up a mk.conf fragment in /usr/pkg/etc/mk.conf
-
 ```
 # Mon Feb  4 06:40:48 EST 2019
 
@@ -72,7 +69,6 @@ IMAKEOPTS+=             -DBuildN32 -DSgiISA32=4
 
 .endif                  # end pkgsrc settings
 ```
-
 * Run bootstrap with this mk.conf "fragment"
 ```
 ./bootstrap --mk-fragment mk.conf
