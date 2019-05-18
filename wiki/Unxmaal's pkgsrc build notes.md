@@ -1,12 +1,9 @@
 pkgsrc setup notes
-* Install https://esp.iki.fi/irix-optlocal.tgz
-* Install gcc 8.2 from this tardist http://ports.sgi.sh/lang/gcc82/index.html 
 
-* Run this fix
 ```
 cp /opt/local/gcc-4.7.4/lib/gcc/mips-sgi-irix6.5/4.7.4/include-fixed/limits.h /opt/local/gcc-8.2.0/lib/gcc/mips-sgi-irix6.5/8.2.0/include-fixed/limits.h
 ```
-* Make a script to set up your environment
+
 ```
 #/root/setenv.sh
 #_cdir="gcc-4.4.7"
@@ -36,79 +33,7 @@ export AR_FLAGS=cr
 
 source /root/setenv.sh
 ```
-* Get pkgsrc from https://github.com/sgidevnet/pkgsrc
-* cd /usr/pkgsrc/bootstrap
-* Set up a mk.conf fragment in /usr/pkg/etc/mk.conf
-
-```
-# Mon Feb  4 06:40:48 EST 2019
-
-.ifdef BSD_PKG_MK       # begin pkgsrc settings
-
-OPSYS=                  IRIX
-ABI=                    32
-PKGSRC_COMPILER=        gcc
-
-UNPRIVILEGED=           yes
-PKG_DBDIR=              /usr/pkg/pkgdb
-LOCALBASE=              /usr/pkg
-VARBASE=                /var
-PKG_TOOLS_BIN=          /usr/pkg/sbin
-PKGINFODIR=             info
-PKGMANDIR=              man
-
-MAKE_JOBS=              4
-
-PKGSRC_SHOW_BUILD_DEFS?=yes
-FIX_SYSTEM_HEADERS=yes
-SMART_MESSAGES=yes
-
-TOOLS_PLATFORM.install?=        /usr/pkg/bin/install-sh
-TOOLS_PLATFORM.awk?=            /usr/nekoware/bin/gawk
-TOOLS_PLATFORM.sed?=            /usr/nekoware/bin/sed
-IMAKEOPTS+=             -DBuildN32 -DSgiISA32=4
-
-.endif                  # end pkgsrc settings
-```
-
-* Run bootstrap with this mk.conf "fragment"
-```
-./bootstrap --mk-fragment mk.conf
-```
-
-# Install bzip2
-bzip2 is the first major dependency constraint.
-
-```
-cd /usr/pkgsrc/archivers/bzip2
-bmake
-
-cp bzip2-1.0.6/.libs/bzip2 .buildlink/bin/.
-cp ./bzip2-1.0.6/.libs/* .buildlink/lib/.
-
-bmake install
-```
-
-
-
------------
-Compile time benchmarks
-
-
-O2 R10000 250Mhz
-real    8m13.416s
-user    4m45.820s
-sys     0m41.799s
-
-O300 R14000 2x600
-real    2m28.847s
-user    1m57.118s
-sys     0m27.539s
-
-===============
-
-# List of failures and experiments
-
+-----------------
 
 bmake in libtool failed at bzip2
 
@@ -368,64 +293,3 @@ do-install:
         ${LN} -s bzgrep.1 ${DESTDIR}${PREFIX}/${PKGMANDIR}/man1/bzegrep.1
         ${LN} -s bzgrep.1 ${DESTDIR}${PREFIX}/${PKGMANDIR}/man1/bzfgrep.1
 ```
-
-!!! NOTE The BSD Makefile uses "Tabs" instead of 4 spaces, like cavemen.
-
-
-Using 'cp' instead of libtool allows make install to complete, but fails to link the libs properly.
-
-Per above, command is:
-
-cd /usr/pkgsrc/archivers/bzip2/work/bzip2-1.0.6
-LIBRARY_PATH=/opt/local/curl/lib:/opt/local/expat/lib:/opt/local/berkeley-db/lib:/opt/local/gmp/lib:\
-    /opt/local/mpc/lib:/opt/local/mpfr:/lib:/opt/local/mpfr/lib:/opt/local/gcc-8.2.0/lib32:/opt/local/gcc-8.2.0/lib
-export LIBRARY_PATH
-{ test -z "${COMPILER_PATH+set}" || \
-    unset COMPILER_PATH || \
-        { COMPILER_PATH=
-            export COMPILER_PATH
-        }
-}
-{ test -z "${GCC_EXEC_PREFIX+set}" || \
-    unset GCC_EXEC_PREFIX || \
-        { GCC_EXEC_PREFIX=
-            export GCC_EXEC_PREFIX
-        }
-}
-LD_LIBRARYN32_PATH=/opt/local/curl/lib:/opt/local/expat/lib:/opt/local/berkeley-db/lib:/opt/local/gmp/lib:\
-    /opt/local/mpc/lib:/opt/local/mpfr:/lib:/opt/local/mpfr/lib:/opt/local/gcc-8.2.0/lib32:/opt/local/gcc-8.2.0/lib
-export LD_LIBRARYN32_PATH
-PATH=/usr/pkgsrc/archivers/bzip2/work/.wrapper/bin:/usr/pkgsrc/archivers/bzip2/work/.buildlink/bin:/usr/pkgsrc/archivers/bzip2/work/.tools/bin:\
-    /usr/pkgsrc/archivers/bzip2/work/.gcc/bin:/usr/pkg/bin:/usr/pkg/bin:/usr/pkg/sbin:/usr/pkg/bin:/usr/pkg/sbin:/opt/local/bin:\
-    /opt/local/sbin:/usr/nekoware/bin:/usr/nekoware/sbin:/usr/etc:/usr/sbin:/usr/bsd:/sbin:/usr/bin:/etc:/usr/etc:/usr/bin/X11:\
-    /opt/local/gcc-8.2.0/bin/
-export PATH
-gcc -Wl,-R/usr/pkg/lib -std=gnu99 -g0 -O2 -mips4 -std=gnu99 -g0 -O2 -mips4 -D_POSIX90 -Wall -Winline -fomit-frame-pointer -D_LARGEFILE_SOURCE -D_LARGE_FILES -D_FILE_OFFSET_BITS=64 -o @OUTPUT@ bzip2.o  -L/usr/pkg/lib -lbz2 -L/usr/pkgsrc/archivers/bzip2/work/.buildlink/lib -Wl,-rpath -Wl,/usr/pkg/lib
-----------
-
-Note here, .buildlink/lib is empty. 
-
-I copied the appropriate items into .buildlink/ and it created the package properly.
-
-cp bzip2-1.0.6/.libs/bzip2 .buildlink/bin/.
-cp ./bzip2-1.0.6/.libs/* .buildlink/lib/.
-
----------- 
-# Building XZ
-
-xz is the next target, as it is required by many packages.
-
-```
-++ gcc -D_REENTRANT -fvisibility=hidden -Wall -Wextra -Wvla -Wformat=2 -Winit-self -Wmissing-include-dirs -Wstrict-aliasing -Wfloat-equal -Wundef -Wshadow -Wpointer-arith -Wbad-function-cast -Wwrite-strings -Wlogical-op -Waggregate-return -Wstrict-prototypes -Wold-style-definition -Wmissing-prototypes -Wmissing-declarations -Wmissing-noreturn -Wredundant-decls -std=gnu99 -g0 -O2 -mips4 -I/usr/pkgsrc/archivers/xz/work/.buildlink/include -Wl,-R/usr/lib32 -Wl,-R/usr/pkg/lib -o .libs/xzdec xzdec-xzdec.o xzdec-tuklib_progname.o xzdec-tuklib_exit.o -L/usr/pkgsrc/archivers/xz/work/.buildlink/lib ../../src/liblzma/.libs/liblzma.so ../../lib/libgnu.a -lpthread -lrt -Wl,-rpath -Wl,/usr/pkgsrc/archivers/xz/work/xz-5.2.4/src/liblzma/.libs:/usr/pkg/lib
---- lzmadec ---
-lzmadec-xzdec.o: In function `main':
-(.text.startup+0x68): undefined reference to `rpl_getopt_long'
-lzmadec-xzdec.o: In function `main':
-(.text.startup+0x90): undefined reference to `rpl_optind'
-lzmadec-xzdec.o: In function `main':
-(.text.startup+0xc0): undefined reference to `rpl_getopt_long'
-lzmadec-xzdec.o: In function `main':
-(.text.startup+0xf0): undefined reference to `rpl_optind'
-collect2: error: ld returned 1 exit status```
-
-

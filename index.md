@@ -19,8 +19,8 @@ Please help contribute knowledge to our community by adding to our wiki or posti
 [Uploading for Distribution](wiki/uploading.html)
 
 ### pkgsrc
-[pkgsrc build notes](wiki/pkgsrc_build_notes.html)
-[Unxmaal's pkgsrc build notes](wiki/unxmaal_pkgsrc_build_notes.html)
+* [pkgsrc build notes](wiki/pkgsrc_build_notes.html)
+* [Unxmaal's pkgsrc build notes](wiki/unxmaal_pkgsrc_build_notes.md)
 
 ### IRIX Binaries
 
