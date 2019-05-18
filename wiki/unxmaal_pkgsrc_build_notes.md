@@ -429,7 +429,8 @@ lzmadec-xzdec.o: In function `main':
 (.text.startup+0xc0): undefined reference to `rpl_getopt_long'
 lzmadec-xzdec.o: In function `main':
 (.text.startup+0xf0): undefined reference to `rpl_optind'
-collect2: error: ld returned 1 exit status```
+collect2: error: ld returned 1 exit status
+```
 
 @HAL says to not use neko libs
 ```
