@@ -13,11 +13,12 @@ cp /opt/local/gcc-4.7.4/lib/gcc/mips-sgi-irix6.5/4.7.4/include-fixed/limits.h /o
 _cdir="gcc-8.2.0"
 export CC=/opt/local/$_cdir/bin/gcc
 export CXX=/opt/local/$_cdir/bin/gcc
-export CFLAGS="-I/usr/nekoware/include -std=gnu99 -g0 -O2 -mips4"
+export CFLAGS="-I/opt/local/ya_getopt/include -std=gnu99 -g0 -O2 -mips4"
+export CPPFLAGS="-D_POSIX90 -I/opt/local/ya_getopt/include"
 export CXXFLAGS="-g0 -O2 -mips4"
-export CPPFLAGS="-D_POSIX90 -I/usr/nekoware/include"
-export LDFLAGS=" -L/usr/local/lib -L/usr/local/lib32 -L/usr/nekoware/lib"
-export LD_LIBRARY_PATH=/opt/local/curl/lib:/opt/local/expat/lib:/opt/local/berkeley-db/lib:/opt/local/gmp/lib:/opt/local/mpc/lib:/opt/local/mpfr:/lib:/opt/local/mpfr/lib:/opt/local/$_cdir/lib32:/opt/local/$_cdir/lib
+export LDFLAGS=" -L/usr/local/lib -L/usr/local/lib32 -L/opt/local/ya_getopt/lib"
+export LD_LIBRARY_PATH=/opt/local/curl/lib:/opt/local/expat/lib:/opt/local/berkeley-db/lib:/opt/local/gmp/lib:/opt/local/mpc/lib:/opt/local/mpfr
+:/lib:/opt/local/mpfr/lib:/opt/local/$_cdir/lib32:/opt/local/$_cdir/lib:/opt/local/ya_getopt/lib
 export LIBRARY_PATH=$LD_LIBRARY_PATH
 export LD_LIBRARYN32_PATH=$LD_LIBRARY_PATH
 
