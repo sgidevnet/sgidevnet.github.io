@@ -37,6 +37,20 @@ export AR_FLAGS=cr
 
 source /root/setenv.sh
 ```
+# Manually compile and install sed
+```
+cd /usr/dist
+wget http://ftp.gnu.org/gnu/sed/sed-4.7.tar.xz 
+xz -d sed-4.7.tar.xz
+tar -xvf sed-4.7.tar
+cd sed-4.7
+./configure
+make
+make install
+```
+
+# Set up pkgsrc
+
 * Get pkgsrc from https://github.com/sgidevnet/pkgsrc
 * cd /usr/pkgsrc/bootstrap
 * Set up a mk.conf fragment in /usr/pkg/etc/mk.conf
@@ -64,8 +78,8 @@ FIX_SYSTEM_HEADERS=yes
 SMART_MESSAGES=yes
 
 TOOLS_PLATFORM.install?=        /usr/pkg/bin/install-sh
-TOOLS_PLATFORM.awk?=            /usr/nekoware/bin/gawk
-TOOLS_PLATFORM.sed?=            /usr/nekoware/bin/sed
+#TOOLS_PLATFORM.awk?=            /usr/nekoware/bin/gawk
+TOOLS_PLATFORM.sed?=            /usr/local/bin/sed
 IMAKEOPTS+=             -DBuildN32 -DSgiISA32=4
 
 .endif                  # end pkgsrc settings
@@ -75,18 +89,303 @@ IMAKEOPTS+=             -DBuildN32 -DSgiISA32=4
 ./bootstrap --mk-fragment mk.conf
 ```
 
-# Install bzip2
+# Install core dependencies
+Most packages require these first.
+
+##  bzip2
 bzip2 is the first major dependency constraint.
 
 ```
 cd /usr/pkgsrc/archivers/bzip2
 bmake
 
-cp bzip2-1.0.6/.libs/bzip2 .buildlink/bin/.
+cp work/bzip2-1.0.6/.libs/bzip2 .buildlink/bin/.
 cp ./bzip2-1.0.6/.libs/* .buildlink/lib/.
 
 bmake install
 ```
+
+##  xz
+
+bmake
+rm work/xz-5.2.4/src/xz/xz
+cp work/xz-5.2.4/src/xz/.libs/xz work/xz-5.2.4/src/xz/xz
+
+rm work/xz-5.2.4/src/lzmainfo/lzmainfo
+cp work/xz-5.2.4/src/lzmainfo/.libs/lzmainfo work/xz-5.2.4/src/lzmainfo/lzmainfo
+
+rm work/xz-5.2.4/src/xzdec/xzdec
+cp work/xz-5.2.4/src/xzdec/.libs/xzdec work/xz-5.2.4/src/xzdec/.
+
+cp work/xz-5.2.4/src/xz/.libs/xz work/.buildlink/bin/.
+cp work/xz-5.2.4/src/xz/.libs/xz work/.buildlink/lib/.
+cp work/xz-5.2.4/src/lzmainfo/.libs/lzmainfo work/.buildlink/bin/.
+cp work/xz-5.2.4/src/xzdec/.libs/* work/.buildlink/bin/.
+
+bmake install
+
+## bsdtar
+Modify  libarchive-3.3.2/libarchive/archive_read_disk_posix.c: 
+steal this from <sys/dir.h> which conflicts with <dirent.h>:
+
+```
+#define dirfd(dirp)     ((dirp)->dd_fd)
+```
+
+## lzip
+Change Makefile to 
+```USE_LANGUAGES=          g++
+```
+
+## wget
+
+
+./converters/help2man/work
+./devel/gettext-tools/work
+./devel/gtexinfo/work
+
+./devel/ncurses/work
+./net/fetch/work
+./net/tnftp/work
+./net/wget/work
+./pkgtools/pkgdiff/work
+./textproc/groff/work
+
+
+## ncurses
+```
+bmake
+touch /usr/pkg/var/tmp/devel/ncurses/work/ncurses-6.1/lib/sgi6.0:sgi6.1
+bmake
+
+# run this script
+fixlist=$(grep -R "temporary wrapper script for" /usr/pkg/var/tmp/devel/ncurses/* |cut -d':' -f1 | cut -d'/' -f10 |sort -u)
+for i in $fixlist ; do
+    mkdir /usr/pkg/var/tmp/devel/ncurses/work/.buildlink/$i
+    cp /usr/pkg/var/tmp/devel/ncurses/work/ncurses-6.1/$i/.libs/* /usr/pkg/var/tmp/devel/ncurses/work/.buildlink/bin/. 
+done
+cp /usr/pkg/var/tmp/devel/ncurses/work/ncurses-6.1/lib/.libs/*.la /usr/pkg/var/tmp/devel/ncurses/work/.buildlink/lib/.
+```
+
+binlist="captoinfo
+clear
+infocmp
+infotocap
+ncurses6-config
+reset
+tabs
+tic
+toe
+tput
+tset"
+
+for i in $binlist ; do 
+    cp 
+
+
+# Update mk.conf
+Now that you have bsdtar, uncomment it from mk.conf
+
+```
+TOOLS_PLATFORM.tar?=            ${LOCALBASE}/bin/gtar
+```
+
+
+
+
+## unzip
+
+add IRIX to the if clause for CPPFLAGS+= -DNO_LCHMOD
+
+
+# Failing
+## perl5
+
+Relocate /usr/lib32/libperl.so* to some other place
+
+work/perl-5.28.1/hints/irix_6.sh
+work/perl-5.28.1/UU/config.sh
+work/perl-5.28.1/UU/cc.cbu
+
+        IRIX64) ccflags="$ccflags -mabi=n32"
+                ldflags="$ldflags -mabi=n32 -L/usr/lib32"
+                lddlflags="$lddlflags -mabi=n32"
+                ;;
+
+
+Put /usr/lib32/libperl.so* back.
+
+
+```
+--- dist/Attribute-Handlers/pm_to_blib ---
+LD_LIBRARY_PATH=/usr/pkgsrc/lang/perl5/work/perl-5.28.1:/opt/local/curl/lib:/opt/local/expat/lib:/opt/local/berkeley-db/lib:/opt/local/gmp/lib:/
+opt/local/mpc/lib:/opt/local/mpfr:/lib:/opt/local/mpfr/lib:/opt/local/gcc-8.2.0/lib32:/opt/local/gcc-8.2.0/lib ./miniperl -Ilib make_ext.pl dist
+/Attribute-Handlers/pm_to_blib  MAKE="/usr/pkg/bin/bmake" LIBPERL_A=libperl.so
+--- cpan/Archive-Tar/pm_to_blib ---
+Unsuccessful Makefile.PL(cpan/Archive-Tar): code=138 at make_ext.pl line 518.
+*** [cpan/Archive-Tar/pm_to_blib] Error code 2
+```
+
+        print join(' ', $perl, @args), "\n" if $verbose;
+        my $code = do {
+           local $ENV{PERL_MM_USE_DEFAULT} = 1;
+            system $perl, @args;
+        };
+        if($code != 0){
+            #make sure next build attempt/run of make_ext.pl doesn't succeed
+            _unlink($makefile);
+            die "Unsuccessful Makefile.PL($ext_dir): code=$code";
+        }
+
+It's actually failing in UU/checkcc, which is running this:
+
+Line 491: gcc -o try -std=gnu99 -g0 -O2 -mips4 -std=gnu99 -g0 -O2 -mips4 -D_REENTRANT -I/usr/pkg/include -I/usr/include -D_BSD_TYPES -D_BSD_TIME -mabi=64 -L/usr/local/lib -L/usr/local/lib32 -L/usr/local/lib -L/usr/local/lib32 -L/usr/pkg/lib -L/usr/lib32 -Wl,-R/usr/lib32 -Wl,-R/usr/pkg/lib -Wl,-woff,84 -mabi=64 -L/usr/lib64 try.c
+
+Picks up those flags from:
+if $cc -o try $ccflags $ldflags
+
+```
+# In Configure
+: Determine the C compiler to be used
+echo " "
+case "$cc" in
+'') dflt=cc;;
+*) dflt="$cc";;
+esac
+rp="Use which C compiler?"
+. ./myread
+cc="$ans"
+
+: See whether they have no cc but they do have gcc
+. ./trygcc
+if $test -f cc.cbu; then
+    . ./cc.cbu
+fi
+. ./checkcc
+```
+
+
+No flags set at the beginning
+
+4550 Just prior to compiler tests:
+cflags= -std=gnu99 -g0 -O2 -mips4 -std=gnu99 -g0 -O2 -mips4   -D_REENTRANT -I/usr/pkg/include -I/usr/include
+ldflags= -L/usr/local/lib -L/usr/local/lib32 -L/usr/local/lib -L/usr/local/lib32    -L/usr/pkg/lib -L/usr/lib32 -Wl,-R/usr/lib32 -Wl,-R/usr/pkg/lib -Wl,-woff,84   <--- -woff is wrong here
+
+
+
+These get set from ccheck, as it is sourced in.
+Line 491: echo ccflags are -std=gnu99 -g0 -O2 -mips4 -std=gnu99 -g0 -O2 -mips4   -D_REENTRANT -I/usr/pkg/include -I/usr/include -D_BSD_TYPES -D_BSD_TIME -mabi=64
+Line 491: echo ldflags are  -L/usr/local/lib -L/usr/local/lib32 -L/usr/local/lib -L/usr/local/lib32    -L/usr/pkg/lib -L/usr/lib32 -Wl,-R/usr/lib32 -Wl,-R/usr/pkg/lib -Wl,-woff,84 -mabi=64 -L/usr/lib64
+
+grep -R IRIX64 *
+UU/config.sh:   IRIX64) ccflags="$ccflags -mabi=64"
+UU/cc.cbu:      IRIX64) ccflags="$ccflags -mabi=64"
+hints/irix_6.sh:        IRIX64) ccflags="$ccflags -mabi=64"
+perl.h: * [perl #123767] IRIX64 blead (ddce084a) opbasic/arith.t failure, originally
+
+
+   436  #case "$ldflags" in
+   437  #    *-Wl,-woff,84*) ;;
+   438  #    *) ldflags="$ldflags -Wl,-woff,84" ;;
+   439  #esac
+
+UU/config.sh:    case "`uname -s`" in
+UU/config.sh:    case "`uname -s`" in
+UU/config.sh:   case "`uname -s`" in
+UU/cc.cbu:    case "`uname -s`" in
+UU/cc.cbu:      case "`uname -s`" in
+hints/irix_6.sh:    case "`uname -s`" in
+hints/irix_6.sh:    case "`uname -s`" in
+hints/irix_6.sh:        case "`uname -s`" in
+
+### debugging perl
+./miniperl -d -Idist/PathTools -Idist/Exporter/lib -Idist/constant/lib -Idist/Term-ReadLine/lib -Ilib make_ext.pl cpan/Archive-Tar/pm_blib MAKE="/usr/pkg/bin/bmake" LIBPERL_A=libperl.so
+
+
+## rpm
+bash-[0-9]*:../../shells/bash
+perl>=5.0:../../lang/perl5
+db4>=4.8.30:../../databases/db4
+libarchive>=3.3.1:../../archivers/libarchive
+libiconv>=1.9.1nb4:../../converters/libiconv
+gettext-lib>=0.18:../../devel/gettext-lib
+nss>=3.14.0:../../devel/nss
+nspr>=4.9.3.2:../../devel/nspr
+popt>=1.16nb1:../../devel/popt
+openssl>=1.0.2gnb1:../../security/openssl
+file>=4.17:../../sysutils/file
+
+## gettext
+gettext-tools:
+
+- trionan.c:
+```
+#include <float.h>
+```
+
+- plural-eval.h:
+
+```
+#include <stdint.h>
+typedef __uint64_t sigjmp_buf[_SIGJBLEN];
+```
+## devel/p5-gettext
+=> Generating post-install file lists
+302619:/usr/pkgsrc/pkgtools/digest/work/.destdir/usr/pkg/bin/digest: rld: Warning: elfmap: running new 32-bit executable but finding old 32-bit shared object /lib/libc.so.1 in the search path.  You may not have set the environment variables correctly, please set LD_LIBRARY_PATH for old 32-bit objects, LD_LIBRARYN32_PATH for new 32-bit objects and LD_LIBRARY64_PATH for 64-bit objects (e_flags 0x20000003) -- continue searching ...
+=> Checking file-check results for digest-20190127
+
+
+fix Makefile.PL
+
+```
+delete 
+
+
+## bash
+Fails due to circular dependency
+
+
+## mpg123
+
+Modify the Makefile
+```
+CPPLAGS+=   -D_BSD_TYPES
+CPPLAGS+=   -D_POSIX93
+```
+
+
+In file included from src/compat/compat.h:85,
+                 from src/compat/compat.c:15:
+/usr/include/sys/time.h:205:56: error: array type has incomplete element type 'struct timespec'
+ extern int utimets(const char *, const struct timespec [2]);
+
+depbase=`echo src/resolver.o | sed 's|[^/]*$|.deps/&|;s|\.o$||'`; gcc -DHAVE_CONFIG_H -I. -I./src  -DPKGLIBDIR="\"/usr/pkg/lib/mpg123\""   -I./src -I./src/compat  -I./src/libmpg123 -I./src/libout123  -I./src/libmpg123  -I./src/libout123  -DGENERIC -DOPT_GENERIC -DREAL_IS_FLOAT -DNOXFERMEM -D_POSIX90 -D_POSIX90 -DDEVOSSAUDIO="\"\"" -DDEVOSSSOUND="\"\"" -I/usr/pkg/include -I/usr/include  -std=gnu99 -g0 -O2 -mips4 -std=gnu99 -g0 -O2 -mips4 -I/usr/pkg/include -I/usr/include -MT src/resolver.o -MD -MP -MF $depbase.Tpo -c -E -o src/resolver.o src/resolver.c
+
+## vim
+```
+auto/pathdef.c:9:35: warning: missing terminating " character
+ char_u *compiled_user = (char_u *)"
+                                   ^
+auto/pathdef.c:9:35: error: missing terminating " character
+auto/pathdef.c:9:1: error: expected expression at end of input
+ char_u *compiled_user = (char_u *)"
+ ^~~~~~
+*** [objects/pathdef.o] Error code 1
+
+char_u *compiled_user = (char_u *)
+```
+## vim-share
+Modifed auto/pathdef.c
+```
+char_u *compiled_user = (char_u *)"";
+```
+link.sh: $LINK_AS_NEEDED set to 'yes': invoking linker directly.
+  gcc   -L/usr/local/lib -L/usr/local/lib32 -L/usr/local/lib -L/usr/local/lib32 -L/usr/pkg/lib -L/usr/lib32 -Wl,-R/usr/lib32 -Wl,-R/usr/pkg/lib -Wl,--as-needed  -o vim objects/arabic.o  objects/beval.o  objects/buffer.o  objects/blob.o  objects/blowfish.o  objects/crypt.o  objects/crypt_zip.o  objects/dict.o  objects/diff.o  objects/digraph.o  objects/edit.o  objects/eval.o  objects/evalfunc.o  objects/ex_cmds.o  objects/ex_cmds2.o  objects/ex_docmd.o  objects/ex_eval.o  objects/ex_getln.o  objects/farsi.o  objects/fileio.o  objects/fold.o  objects/getchar.o  objects/hardcopy.o  objects/hashtab.o    objects/if_cscope.o  objects/if_xcmdsrv.o  objects/list.o  objects/mark.o  objects/memline.o  objects/menu.o  objects/misc1.o  objects/misc2.o  objects/move.o  objects/mbyte.o  objects/normal.o  objects/ops.o  objects/option.o  objects/os_unix.o  objects/pathdef.o  objects/popupmnu.o  objects/pty.o  objects/quickfix.o  objects/regexp.o  objects/screen.o  objects/search.o  objects/sha256.o  objects/sign.o  objects/spell.o  objects/spellfile.o  objects/syntax.o  objects/tag.o  objects/term.o  objects/terminal.o  objects/textprop.o  objects/ui.o  objects/undo.o  objects/userfunc.o  objects/version.o  objects/window.o    objects/encoding.o objects/keyboard.o objects/mouse.o objects/parser.o objects/pen.o objects/termscreen.o objects/state.o objects/unicode.o objects/vterm.o                  objects/netbeans.o  objects/channel.o  objects/xdiffi.o  objects/xemit.o  objects/xprepare.o  objects/xutils.o  objects/xhistogram.o  objects/xpatience.o objects/charset.o  objects/json.o  objects/main.o  objects/memfile.o  objects/message.o               -lm -ltermlib -lelf -lnsl -lsocket
+objects/version.o: In function `list_version':
+(.text+0x6dc): undefined reference to `compiled_sys'
+collect2: error: ld returned 1 exit status
+link.sh: Linking failed
+*** [vim] Error code 1
 
 
 
@@ -103,6 +402,11 @@ O300 R14000 2x600
 real    2m28.847s
 user    1m57.118s
 sys     0m27.539s
+
+O350 R16000 4x800Mhz
+real    1m15.003s
+user    1m7.232s
+sys     0m7.264s
 ```
 ----------
 
@@ -495,3 +799,13 @@ Stop.
 bmake[3]: stopped in /usr/pkgsrc/archivers/xz/work/xz-5.2.4/src/xzdec
 *** Error code 1
 ```
+
+medfly on irc says
+
+we have pkgtools/pkgdiff to help create the patches you see in the directory patches/
+it will let you pkgvi path/to/configure.ac, then mkpatches; make mps to create the patch & adjust the checksums
+
+cd pkgtools/pkgdiff
+bmake install
+
+pkgvi 
