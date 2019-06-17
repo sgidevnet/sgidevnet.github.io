@@ -1,5 +1,5 @@
 # SGIdev Network
-Welcome to the SGIdev Network wiki, part of the Silicon Graphics User Group!
+Welcome to the SGIdev Network wiki, part of the [Silicon Graphics User Group](https://www.sgi.sh)!
 
 Please help contribute knowledge to our community by adding to our wiki or posting on our forums.
 
