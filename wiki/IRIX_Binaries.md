@@ -6,11 +6,7 @@ We are uploading tardists of packages at [ports.sgi.sh](http://ports.sgi.sh)!
 
 ## GCC
 
-[https://esp.iki.fi/gcc-4.7.4-irix-3.tgz](https://esp.iki.fi/gcc-4.7.4-irix-3.tgz)
-
-Cross-built on a Linux host. Includes GNU binutils 2.17.
-
-This is an updated version, fixing a couple of stupidities in the previous tarball. After installing it, edit /opt/local/gcc-4.7.4/libexec/gcc/mips-sgi-irix6.5/4.7.4/install-tools/mkheaders to point to your copy of bash (it appears in three places in the file) and run the script to get fixed versions of headers in /opt/local/gcc-4.7.4/lib/gcc/mips-sgi-irix6.5/4.7.4/include-fixed.
+Tardists are available on [ports.sgi.sh](http://ports.sgi.sh) in the `lang` category.
 
 ## GNU grep 3.1
 
