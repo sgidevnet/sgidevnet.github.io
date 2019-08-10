@@ -10,8 +10,7 @@ Welcome to the SGIdev Network wiki, part of the [Silicon Graphics User Group](ht
 Please help contribute knowledge to our community by adding to our wiki or posting on our forums.
 
 ## Pre-Compiled IRIX Binaries
-
-[IRIX Binaries](wiki/IRIX_Binaries.html)
+* [IRIX Binaries](wiki/IRIX_Binaries.html)
 
 ## Crosscompilation
 * [Setting up a crosscompilation environment](wiki/crosscompiling.html)
