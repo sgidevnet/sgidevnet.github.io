@@ -1,22 +1,14 @@
 # IRIX Binaries
 
-## Recommended: Uploaded tardists
-
-We are uploading tardists of packages at [ports.sgi.sh](http://ports.sgi.sh)!
-
-## GCC
-
-Tardists are available on [ports.sgi.sh](http://ports.sgi.sh) in the `lang` category.
-
-## GNU grep 3.1
-
-[https://esp.iki.fi/irix-gnu-grep.tgz](https://esp.iki.fi/irix-gnu-grep.tgz)
-
-This supports the -r option, making it rather useful for finding out where something is #defined.
-
-## "Lots of stuff"
-
+## Step 1: Onre's optlocal
 [https://esp.iki.fi/irix-optlocal.tgz](https://esp.iki.fi/irix-optlocal.tgz)
+
+This is a large tarball of precompiled IRIX binaries. 
+
+This may be used to 'bootstrap' your IRIX system.
+
+### Usage
+Fetch this file (using some method) to your IRIX host. As root, extract it to /.
 
 Inside the file there is an optlocal.profile file which sets rld search paths accordingly.
 
@@ -40,4 +32,22 @@ What's included:
 * git 2.19.2
 * libexpat 2.2.6
 * GNU make 4.2.1
+* GNU grep 3.1
+
+
+## Step 2: Tardist Ports at ports.sgi.sh
+
+[ports.sgi.sh](http://ports.sgi.sh) contains current known-good ports packaged as tardist archives.
+
+## GCC 4.7.4, GCC 8.2.0, Python 3.5
+
+Tardists are available on [ports.sgi.sh](http://ports.sgi.sh) in the `lang` category.
+
+## Step 3: irixports
+
+[irixports](https://github.com/larb0b/irixports) simple ports collection that includes software and patches for compiling on IRIX
+
+## Step 4: SGUG Developer releases
+[SGIDevnet repos](https://github.com/sgidevnet/) early access and WIP porting projects
+
 

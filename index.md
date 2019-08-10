@@ -18,11 +18,7 @@ Please help contribute knowledge to our community by adding to our wiki or posti
 
 [Uploading for Distribution](wiki/uploading.html)
 
-### pkgsrc
-* [pkgsrc build notes](wiki/pkgsrc_build_notes.html)
-* [Unxmaal's pkgsrc build notes](wiki/unxmaal_pkgsrc_build_notes.md)
-
-### IRIX Binaries
+### Pre-Compiled IRIX Binaries
 
 [IRIX Binaries](wiki/IRIX_Binaries.html)
 
@@ -32,3 +28,7 @@ Please help contribute knowledge to our community by adding to our wiki or posti
 [Motif Programming Manual](https://www.oreilly.com/openbook/motif/vol6a/Vol6a_html/toc.html)
 
 We also have a Discord server. Join us at [SGIdev Discord](https://discord.gg/skp987v). This Discord server is also bridged to irc.hashbang.sh:6697 (SSL required) #sgidev and on Matrix (community: [+sgug:matrix.org](https://riot.im/app/#/group/+sgug:matrix.org)).
+
+### pkgsrc
+* [pkgsrc build notes](wiki/pkgsrc_build_notes.html)
+* [Unxmaal's pkgsrc build notes](wiki/unxmaal_pkgsrc_build_notes.md)
