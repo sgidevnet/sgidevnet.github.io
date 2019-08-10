@@ -39,7 +39,7 @@ What's included:
 
 [ports.sgi.sh](http://ports.sgi.sh) contains current known-good ports packaged as tardist archives.
 
-## GCC 4.7.4, GCC 8.2.0, Python 3.5
+### GCC 4.7.4, GCC 8.2.0, Python 3.5
 
 Tardists are available on [ports.sgi.sh](http://ports.sgi.sh) in the `lang` category.
 
@@ -48,6 +48,14 @@ Tardists are available on [ports.sgi.sh](http://ports.sgi.sh) in the `lang` cate
 [irixports](https://github.com/larb0b/irixports) simple ports collection that includes software and patches for compiling on IRIX
 
 ## Step 4: SGUG Developer releases
+
 [SGIDevnet repos](https://github.com/sgidevnet/) early access and WIP porting projects
 
 
+## Other resources
+### pkgsrc
+
+Unxmaal and Onre did some work with pkgsrc but the effort stalled due to the size of the project. If you're interested, here are notes:
+
+* [pkgsrc build notes](wiki/pkgsrc_build_notes.html)
+* [Unxmaal's pkgsrc build notes](wiki/unxmaal_pkgsrc_build_notes.md)
