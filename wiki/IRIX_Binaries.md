@@ -57,5 +57,5 @@ Tardists are available on [ports.sgi.sh](http://ports.sgi.sh) in the `lang` cate
 
 Unxmaal and Onre did some work with pkgsrc but the effort stalled due to the size of the project. If you're interested, here are notes:
 
-* [pkgsrc build notes](wiki/pkgsrc_build_notes.html)
-* [Unxmaal's pkgsrc build notes](wiki/unxmaal_pkgsrc_build_notes.md)
+* [pkgsrc build notes](pkgsrc_build_notes.html)
+* [Unxmaal's pkgsrc build notes](unxmaal_pkgsrc_build_notes.md)
