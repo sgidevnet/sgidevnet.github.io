@@ -4,7 +4,7 @@ Welcome to the SGIdev Network wiki, part of the [Silicon Graphics User Group](ht
 ## Community
 * [Silicon Graphics User Group forums](https://forums.sgi.sh)
 * [SGIdev Discord](https://discord.gg/skp987v) 
-* [IRC](irc://irc.oftc.net/sgidev) irc.oftc.net #sgidev (bridged to Discord #general)
+* [IRC](irc://irc.oftc.net/sgi) irc.oftc.net #sgi (bridged to Discord #general)
 * [Matrix: +sgug:matrix.org](https://riot.im/app/#/group/+sgug:matrix.org) (also bridged to Discord)
 
 Please help contribute knowledge to our community by adding to our wiki or posting on our forums.
